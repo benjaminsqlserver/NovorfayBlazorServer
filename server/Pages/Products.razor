@@ -1,0 +1,55 @@
+﻿@page "/"
+@page "/products"
+@layout MainLayout
+@inherits NovorfayProductCatalogue.Pages.ProductsComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using NovorfayProductCatalogue.Models.ConData
+@using Microsoft.AspNetCore.Identity;
+@using NovorfayProductCatalogue.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text="Products">
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@Button0Click">
+        </RadzenButton>
+        <RadzenTextBox Placeholder="Search ..." style="display: block; margin-bottom: 10px; width: 100%" Name="Textbox0" @oninput="@(async(args) => {search = $"{args.Value}";await grid0.GoToPage(0);await Load();})">
+        </RadzenTextBox>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@getProductsResult" FilterMode="FilterMode.Advanced" TItem="NovorfayProductCatalogue.Models.ConData.Product" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="NovorfayProductCatalogue.Models.ConData.Product" Property="ProductID" Title="Product ID">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="NovorfayProductCatalogue.Models.ConData.Product" FilterProperty="ProductCategory.CategoryName" GroupProperty="ProductCategory.CategoryName" Property="CategoryID" SortProperty="ProductCategory.CategoryName" Title="Product Category">
+              <Template Context="data">
+              @(data.ProductCategory?.CategoryName)
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="NovorfayProductCatalogue.Models.ConData.Product" Property="ProductName" Title="Product Name">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="NovorfayProductCatalogue.Models.ConData.Product" Property="Price" Title="Price">
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="NovorfayProductCatalogue.Models.ConData.Product" Property="Picture" Title="Picture">
+              <Template Context="novorfayProductCatalogueModelsConDataProduct">
+                <RadzenImage Path="@(novorfayProductCatalogueModelsConDataProduct.Picture)" style="height: 30px; width: 30px">
+                </RadzenImage>
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="NovorfayProductCatalogue.Models.ConData.Product" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+              <Template Context="novorfayProductCatalogueModelsConDataProduct">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, novorfayProductCatalogueModelsConDataProduct))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

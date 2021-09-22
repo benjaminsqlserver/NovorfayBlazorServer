@@ -1,0 +1,45 @@
+﻿@page "/add-product-category"
+@layout MainLayout
+@inherits NovorfayProductCatalogue.Pages.AddProductCategoryComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using NovorfayProductCatalogue.Models.ConData
+@using Microsoft.AspNetCore.Identity;
+@using NovorfayProductCatalogue.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+<RadzenContent Container="main">
+  <ChildContent>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenTemplateForm Data="@productcategory" Visible="@(productcategory != null)" TItem="NovorfayProductCatalogue.Models.ConData.ProductCategory" Submit="@Form0Submit">
+          <ChildContent>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text="Category Name" Component="CategoryName" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="50" style="display: block; width: 100%" @bind-Value="@(productcategory.CategoryName)" Name="CategoryName">
+                </RadzenTextBox>
+                <RadzenRequiredValidator Component="CategoryName" Text="CategoryName is required" style="position: absolute">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-sm-3">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" ButtonStyle="ButtonStyle.Primary">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text="Cancel" Click="@Button2Click">
+                </RadzenButton>
+              </div>
+            </div>
+          </ChildContent>
+        </RadzenTemplateForm>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

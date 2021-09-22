@@ -1,0 +1,81 @@
+﻿@page "/add-product"
+@layout MainLayout
+@inherits NovorfayProductCatalogue.Pages.AddProductComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using NovorfayProductCatalogue.Models.ConData
+@using Microsoft.AspNetCore.Identity;
+@using NovorfayProductCatalogue.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+<RadzenContent Container="main">
+  <ChildContent>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenTemplateForm Data="@product" TItem="NovorfayProductCatalogue.Models.ConData.Product" Visible="@(product != null)" Submit="@Form0Submit">
+          <ChildContent>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="CategoryID" style="width: 100%" Text="Product Category">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDropDown Data="@getProductCategoriesResult" Placeholder="Choose ProductCategory" style="display: block; width: 100%" TextProperty="CategoryName" @bind-Value="@(product.CategoryID)" ValueProperty="CategoryID" Name="CategoryID">
+                </RadzenDropDown>
+                <RadzenRequiredValidator Component="CategoryID" DefaultValue="0" style="position: absolute" Text="CategoryID is required">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="ProductName" style="width: 100%" Text="Product Name">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="150" style="display: block; width: 100%" @bind-Value="@(product.ProductName)" Name="ProductName">
+                </RadzenTextBox>
+                <RadzenRequiredValidator Component="ProductName" style="position: absolute" Text="ProductName is required">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="Price" style="width: 100%" Text="Price">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="display: block; width: 100%" @bind-Value="@(product.Price)" Name="Price">
+                </RadzenNumeric>
+                <RadzenRequiredValidator Component="Price" style="position: absolute" Text="Price is required">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="Picture" style="width: 100%" Text="Picture">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenFileInput @bind-Value="@(product.Picture)" Name="FileInput0">
+                </RadzenFileInput>
+                <RadzenRequiredValidator Component="FileInput0" style="position: absolute" Text="Picture is required">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-sm-3">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text="Cancel" Click="@Button2Click">
+                </RadzenButton>
+              </div>
+            </div>
+          </ChildContent>
+        </RadzenTemplateForm>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>
